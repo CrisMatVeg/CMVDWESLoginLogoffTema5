@@ -9,7 +9,7 @@
 
 <body>
     <?php
-    highlight_file("../scriptDB/BorraDBCMVDWESProyectoTema5EE.sql");
+    highlight_file("../scriptDB/BorraDBCMVDWESLoginLogoffTema5EE.sql");
     ?>
 </body>
 

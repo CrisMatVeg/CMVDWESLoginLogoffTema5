@@ -10,7 +10,7 @@
 <body>
     <?php
     echo "<pre>";
-    highlight_file("../scriptDB/CreaDBCMVDWESProyectoTema5.sql");
+    highlight_file("../scriptDB/CreaDBCMVDWESLoginLogoffTema5.sql");
     echo "</pre>";
     ?>
 </body>

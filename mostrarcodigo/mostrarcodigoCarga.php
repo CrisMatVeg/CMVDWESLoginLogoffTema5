@@ -9,7 +9,7 @@
 
 <body>
     <?php
-    highlight_file("../scriptDB/CargaInicialDBCMVDWESProyectoTema5.sql");
+    highlight_file("../scriptDB/CargaInicialDBCMVDWESLoginLogoffTema5.sql");
     ?>
 </body>
 

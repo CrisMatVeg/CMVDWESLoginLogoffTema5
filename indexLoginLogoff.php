@@ -85,103 +85,12 @@
         </header>
 
         <main>
-            <table>
-                <tr>
-                    <td></td>
-                    <td>ED</td>
-                    <td>EE</td>
-                </tr>
-                <tr>
-                    <td class="numero">Script Creación de base de datos y usuario</td>
-                    <td>
-                        <a href="./mostrarcodigo/mostrarcodigoCrear.php" >
-                            <i class="fa-solid fa-code"></i>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="./mostrarcodigo/mostrarcodigoCrearEE.php" >
-                            <i class="fa-solid fa-code"></i>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="numero">Script de Carga Inicial</td>
-                    <td>
-                        <a href="./mostrarcodigo/mostrarcodigoCarga.php" >
-                            <i class="fa-solid fa-code"></i>
-                        </a>
-                    </td>
-                    <td>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="numero">Script de Borrado</td>
-                    <td>
-                        <a href="./mostrarcodigo/mostrarcodigoBorrar.php" >
-                            <i class="fa-solid fa-code"></i>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="./mostrarcodigo/mostrarcodigoBorrarEE.php" >
-                            <i class="fa-solid fa-code"></i>
-                        </a>
-                    </td>
-                </tr>
-            </table>
-            <table id="tablaEjercicios">
-                <tr>
-                    <td>Nº</td>
-                    <td>Enunciado</td>
-                    <td>PDO</td>
-                    <td>MySQLi</td>
-                </tr>
-                <tr>
-                    <td class="numero">0</td>
-                    <td class="enunciado"></td>
-                    <td>
-                        <!-- <a href="./codigoPHP/ejercicio00.php" >
-                            <i class="fa-solid fa-play"></i>
-                        </a>
-                        <a href="./mostrarcodigo/mostrarcodigo00.php" >
-                            <i class="fa-solid fa-code"></i>
-                        </a> -->
-                    </td>
-                    <td>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="numero">1</td>
-                    <td class="enunciado"></td>
-                    <td>
-                        <!-- <a href="./codigoPHP/ejercicio01.php" >
-                            <i class="fa-solid fa-play"></i>
-                        </a>
-                        <a href="./mostrarcodigo/mostrarcodigo01.php" >
-                            <i class="fa-solid fa-code"></i>
-                        </a></td> -->
-                    <td>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="numero">2</td>
-                    <td class="enunciado"></td>
-                    <td>
-                        <!-- <a href="./codigoPHP/ejercicio02.php" >
-                            <i class="fa-solid fa-play"></i>
-                        </a>
-                        <a href="./mostrarcodigo/mostrarcodigo02.php" >
-                            <i class="fa-solid fa-code"></i>
-                        </a></td> -->
-                    <td>
-                    </td>
-                </tr>
-            </table>
         </main>
 
         <footer>
             <p>© 2025-26 IES Los Sauces. Todos los derechos reservados. Cristian Mateos Vega</p>
             <div id="iconos">
-                <a href="https://github.com/CrisMatVeg" target="_blank" title="Github"><i
+                <a href="https://github.com/CrisMatVeg/CMVDWESLoginLogoffTema5" target="_blank" title="Github"><i
                         class="fa-brands fa-github fa-2xl"></i></a>
                 <a href="../CMVDWESProyectoDWES/indexProyectoDWES.php" title="Inicio"><i class="fa-solid fa-house fa-xl"></i></a>
             </div>

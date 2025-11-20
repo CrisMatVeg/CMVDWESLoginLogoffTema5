@@ -1,0 +1,7 @@
+@font-face {
+    font-family: 'MiFuente';
+    src: url('../fonts/Audiowide-Regular.ttf') format('woff2'),
+        url('../fonts/Audiowide-Regular.ttf') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

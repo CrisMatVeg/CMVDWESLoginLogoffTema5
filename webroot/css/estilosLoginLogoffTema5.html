@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Réplic­a básica — Duolingo style</title>
+    <style>
+        @font-face {
+            font-family: "mFeather";
+            src: url("../fonts/FeatherBold/DuolingoFeatherBold.ttf") format("woff2");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: "mNunito";
+            src: url("../fonts/Nunito/Nunito-VariableFont_wght.ttf") format("woff2");
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        :root {
+            --brand-green: #58cc02;
+            /* aproximación al verde Duolingo */
+            --accent: #4a9bff;
+            --bg: #f7fbff;
+            --text: #1a1a1a;
+            --muted: #6b7280;
+            --max-width: 100vw;
+
+            /* tipografías: sustituir por 'Feather' / 'DIN Next Rounded' si las tienes */
+            --headline: 'mFeather';
+            --body: 'mNunito';
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html,
+        body {
+            height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--body);
+            line-height: 1.45
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 2rem
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            font-weight: 700;
+            font-family: var(--headline);
+            font-size: 1.25rem;
+            color: var(--brand-green)
+        }
+
+        .logo .owl {
+            width: 36px;
+            height: 36px;
+            background: var(--brand-green);
+            border-radius: 6px;
+            display: inline-block
+        }
+
+        nav {
+            display: flex;
+            gap: 1rem;
+            align-items: center
+        }
+
+        nav a {
+            color: var(--muted);
+            text-decoration: none;
+            font-weight: 600
+        }
+
+        .cta {
+            background: var(--brand-green);
+            color: white;
+            padding: .55rem 1rem;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none
+        }
+
+        /* Hero */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 2rem;
+            align-items: center;
+            padding: 2rem 0
+        }
+
+        .hero h1 {
+            font-family: var(--headline);
+            font-size: 2.25rem;
+            line-height: 1.05;
+            margin-bottom: .6rem
+        }
+
+        .hero p {
+            color: var(--muted);
+            margin-bottom: 1.25rem
+        }
+
+        .hero .buttons {
+            display: flex;
+            gap: .75rem
+        }
+
+        .btn {
+            padding: .65rem 1rem;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block
+        }
+
+        .btn.primary {
+            background: var(--brand-green);
+            color: #fff
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 2px solid rgba(0, 0, 0, 0.06);
+            color: var(--text)
+        }
+
+        /* Card mock image */
+        .hero .mock {
+            width: 100%;
+            height: 360px;
+            background: linear-gradient(180deg, #fff, #eef6ff);
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(20, 40, 80, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            font-weight: 700
+        }
+
+        /* Feature grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem
+        }
+
+        .feature {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(17, 24, 39, 0.04)
+        }
+
+        .feature h3 {
+            font-family: var(--headline);
+            font-size: 1.05rem;
+            margin-bottom: .5rem
+        }
+
+        .feature p {
+            color: var(--muted);
+            font-size: .95rem
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 3rem;
+            padding: 2rem 0;
+            color: var(--muted);
+            font-size: .9rem
+        }
+
+        .footer-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem
+        }
+
+        /* Responsive */
+        @media (max-width:900px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center
+            }
+
+            .hero .mock {
+                height: 260px
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                margin-top: 1rem
+            }
+
+            nav {
+                display: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <span class="owl" aria-hidden="true"></span>
+                <span>Duolingo<span style="color:var(--muted);font-weight:600;margin-left:6px;font-size:.9rem">—
+                        réplica</span></span>
+            </div>
+
+            <nav>
+                <a href="#">Cursos</a>
+                <a href="#">Precios</a>
+                <a href="#">Para empresas</a>
+                <a class="cta" href="#">Empezar</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div>
+                    <h1>Aprende un idioma en minutos al día</h1>
+                    <p>Una experiencia gamificada con lecciones cortas y ejercicios interactivos — prototipo de réplica.
+                    </p>
+                    <div class="buttons">
+                        <a class="btn primary" href="#">Empieza gratis</a>
+                        <a class="btn secondary" href="#">Ver planes</a>
+                    </div>
+
+                    <div class="features" style="margin-top:1.75rem">
+                        <div class="feature">
+                            <h3>Lecciones cortas</h3>
+                            <p>Práctica diaria en intervalos pequeños para mantener la constancia.</p>
+                        </div>
+                        <div class="feature">
+                            <h3>Progresos visibles</h3>
+                            <p>Rachas, puntos y niveles para motivarte a seguir aprendiendo.</p>
+                        </div>
+                        <div class="feature">
+                            <h3>Contenido gamificado</h3>
+                            <p>Revisión espaciada y ejercicios interactivos adaptativos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <aside>
+                    <div class="mock">[Mockup móvil/app — imagen]</div>
+                </aside>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-grid">
+                <div>© 2025 Duolingo (réplica de estructura para prototipo)</div>
+                <div style="opacity:.9">Ayuda · Privacidad · Condiciones</div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

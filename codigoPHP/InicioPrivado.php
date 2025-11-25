@@ -85,15 +85,6 @@
             #tablaEjercicios tr td:nth-child(4){
                 cursor:pointer;
             }
-
-            /* #login{
-                background: url("./webroot/images/user.svg") no-repeat center;
-                background-size: 45px;
-                width: 50px;
-                height: 50px;
-                border: none;
-                cursor: pointer;
-            } */
         </style>
     </head>
 
@@ -107,7 +98,15 @@
         </header>
 
         <main>
-            <h3>Bienvenido a la Parte Privada</h3>
+            <?php
+                if($_COOKIE["idioma"]=="FR"){
+                    echo "<h1>Bienvenue dans l'espace private</h1>";
+                }elseif ($_COOKIE["idioma"]=="PR") {
+                    echo "<h1>Bem-vindo à área privada.</h1>";
+                }else{
+                    echo "<h1>Bienvenido a la zona privada</h1>";
+                }
+            ?>
             <form>
                 <input type="submit" name="detalle" value='Detalle' id="detalle">
             </form>

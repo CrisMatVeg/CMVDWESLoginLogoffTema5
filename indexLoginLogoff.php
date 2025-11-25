@@ -1,5 +1,8 @@
 <?php
     $idiomaSeleccionado="ES";
+    if(!isset($_COOKIE["idioma"])) {
+        setcookie('idioma', $idiomaSeleccionado);
+    }
     if (isset($_REQUEST['es'])) {
         $idiomaSeleccionado="ES";
         setcookie('idioma', $idiomaSeleccionado);
@@ -16,10 +19,7 @@
         header("Location: ./indexLoginLogoff.php");
         exit;
     }
-
-    if(!isset($_COOKIE["idioma"])) {
-        setcookie('idioma', $idiomaSeleccionado);
-    }
+    
     if (isset($_REQUEST['login'])) {
         header("Location: ./codigoPHP/Login.php");
         exit;
@@ -72,6 +72,37 @@
                 background-repeat: no-repeat;
                 display: inline-block;
             }
+
+            #es{
+                display: none;
+            }
+
+            #pr{
+                display: none;
+            }
+
+            #fr{
+                display: none;
+            }
+            img{
+                height: 30px;
+            }
+            form{
+                display: flex;
+                justify-content:center;
+                align-content:center;
+                gap:10px;
+            }
+            form *{
+                cursor: pointer;
+            }
+            .labels{
+                display: flex;
+                justify-content:center;
+                align-content:center;
+                gap:10px;
+                padding-top:10px;
+            }
         </style>
     </head>
     <body>
@@ -85,9 +116,14 @@
                 <nav>
                     <form>
                         <input type="submit" name="login" value='Empezar' id="login" class="cta">
-                        <input type="submit" name="es" value='Español' id="es" class="cta">
-                        <input type="submit" name="pr" value='Portugues' id="pr" class="cta">
-                        <input type="submit" name="fr" value='Francés' id="fr" class="cta">
+                        <div class="labels">
+                            <label for="es"><img src="./webroot/images/es.svg" alt="es"></label>
+                            <label for="pr"><img src="./webroot/images/pr.svg" alt="pr"></label>
+                            <label for="fr"><img src="./webroot/images/fr.svg" alt="fr"></label>
+                        </div>
+                        <input type="submit" name="es" value="" id="es">
+                        <input type="submit" name="pr" value='Portugues' id="pr">
+                        <input type="submit" name="fr" value='Francés' id="fr">
                     </form>
                 </nav>
             </header>
@@ -96,6 +132,7 @@
                 <section class="hero">
                     <div>
                         <?php
+                        if(isset($_COOKIE["idioma"])){
                             if($_COOKIE["idioma"]=="FR"){
                                 echo "<h1>Bienvenue dans l'espace public</h1>";
                             }elseif ($_COOKIE["idioma"]=="PR") {
@@ -103,6 +140,9 @@
                             }else{
                                 echo "<h1>Bienvenido a la zona pública</h1>";
                             }
+                        }else{
+                            echo "<h1>Bienvenido a la zona pública</h1>";
+                        }
                         ?>
                         <!-- <div class="buttons">
                             <form>

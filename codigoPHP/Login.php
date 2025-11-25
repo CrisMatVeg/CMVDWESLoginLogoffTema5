@@ -90,7 +90,6 @@ if (isset($_REQUEST['entrar'])) {
         <title>Login</title>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
         <link rel="stylesheet" href="../webroot/css/estilosLoginLogoff.css">
-        <link rel="stylesheet" href="../webroot/css/fonts.css">
         <style>
             @font-face {
                 font-family: "mFeather";
@@ -190,12 +189,16 @@ if (isset($_REQUEST['entrar'])) {
                 <section class="hero">
                     <div>
                         <?php
-                            if($_COOKIE["idioma"]=="ES"){
-                                echo "<h1>INICIAR SESIÓN</h1>";
-                            }elseif ($_COOKIE["idioma"]=="PR") {
-                                echo "<h1>CONECTE-SE</h1>";
+                            if(isset($_COOKIE["idioma"])){
+                                if($_COOKIE["idioma"]=="FR"){
+                                    echo "<h1>SE CONNECTER</h1>";
+                                }elseif ($_COOKIE["idioma"]=="PR") {
+                                    echo "<h1>CONECTE-SE</h1>";
+                                }else{
+                                    echo "<h1>INICIAR SESIÓN</h1>";
+                                }
                             }else{
-                                echo "<h1>SE CONNECTER</h1>";
+                                echo "<h1>INICIAR SESIÓN</h1>";
                             }
                         ?>
                         <div>
@@ -216,10 +219,11 @@ if (isset($_REQUEST['entrar'])) {
             </main>
 
             <footer>
-                <p>© 2025-26 IES Los Sauces. Todos los derechos reservados. <a href="../CMVDWESProyectoDWES/indexProyectoDWES.php" title="Inicio">Cristian Mateos Vega</a></p>
-                <div id="iconos">
-                    <a href="https://github.com/CrisMatVeg/CMVDWESLoginLogoffTema5" target="_blank" title="Github"><i
-                            class="fa-brands fa-github fa-2xl"></i></a>
+                    <div class="footer-grid">
+                        <div>© 2025-26 IES Los Sauces. Todos los derechos reservados. <a href="../CMVDWESProyectoDWES/indexProyectoDWES.php" title="Inicio">Cristian Mateos Vega</a></div>
+                        <div><a href="https://es.duolingo.com/" target="_blank" title="Duolingo">Pagina Imitada</a> · <a href="https://github.com/CrisMatVeg/CMVDWESLoginLogoffTema5" target="_blank" title="Github"><i
+                                    class="fa-brands fa-github fa-2xl"></i></a>
+                    </div>
                 </div>
             </footer>
         </div>

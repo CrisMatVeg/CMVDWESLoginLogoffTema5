@@ -1,28 +1,34 @@
 <?php
+    session_start();
     $idiomaSeleccionado="ES";
     if(!isset($_COOKIE["idioma"])) {
-        setcookie('idioma', $idiomaSeleccionado);
+        setcookie('idioma', $idiomaSeleccionado, time()+86400*30);
     }
     if (isset($_REQUEST['es'])) {
         $idiomaSeleccionado="ES";
-        setcookie('idioma', $idiomaSeleccionado);
+        setcookie('idioma', $idiomaSeleccionado, time()+86400*30);
         header("Location: ./indexLoginLogoff.php");
         exit;
     }elseif (isset($_REQUEST['pr'])) {
         $idiomaSeleccionado="PR";
-        setcookie('idioma', $idiomaSeleccionado);
+        setcookie('idioma', $idiomaSeleccionado, time()+86400*30);
         header("Location: ./indexLoginLogoff.php");
         exit;
     }elseif (isset($_REQUEST['fr'])){
         $idiomaSeleccionado="FR";
-        setcookie('idioma', $idiomaSeleccionado);
+        setcookie('idioma', $idiomaSeleccionado, time()+86400*30);
         header("Location: ./indexLoginLogoff.php");
         exit;
     }
     
     if (isset($_REQUEST['login'])) {
-        header("Location: ./codigoPHP/Login.php");
-        exit;
+        if(isset($_SESSION['usuarioCMVDWESLoginLogoffTema5']['CodUsuario']) && isset($_SESSION['usuarioCMVDWESLoginLogoffTema5']['Password'])){
+            header("Location: ./codigoPHP/InicioPrivado.php");
+            exit;
+        }else{
+            header("Location: ./codigoPHP/Login.php");
+            exit;
+        }
     }
 ?>
 
@@ -59,16 +65,17 @@
                 --text: #1a1a1a;
                 --muted: #6b7280;
                 --max-width: 100vw;
+                --btnshadow:#58A700;
 
                 --headline: 'mFeather';
                 --body: 'mNunito';
             }
 
             .logo .owl {
-                width: 45px;
-                height: 45px;
+                width: 60px;
+                height: 60px;
                 background-image: url("./webroot/images/paloma.svg");
-                background-size:45px;
+                background-size:cover;
                 background-repeat: no-repeat;
                 display: inline-block;
             }
@@ -103,6 +110,19 @@
                 gap:10px;
                 padding-top:10px;
             }
+            .cta {
+                width: 120px;
+                box-shadow: 0px 5px 0px 0px var(--btnshadow);
+            }
+            .hero div img{
+                width: 700px;
+                height: 450px;
+            }
+
+            .selected-idioma img{
+                border:4px solid var(--accent);
+                border-radius:10px; 
+            }
         </style>
     </head>
     <body>
@@ -117,9 +137,9 @@
                     <form>
                         <input type="submit" name="login" value='Empezar' id="login" class="cta">
                         <div class="labels">
-                            <label for="es"><img src="./webroot/images/es.svg" alt="es"></label>
-                            <label for="pr"><img src="./webroot/images/pr.svg" alt="pr"></label>
-                            <label for="fr"><img src="./webroot/images/fr.svg" alt="fr"></label>
+                            <label for="es" class="<?php echo (isset($_COOKIE['idioma']) && $_COOKIE['idioma']=='ES') ? 'selected-idioma' : ''; ?>"><img src="./webroot/images/es.svg" alt="es" id="labeles"></label>
+                            <label for="pr" class="<?php echo (isset($_COOKIE['idioma']) && $_COOKIE['idioma']=='PR') ? 'selected-idioma' : ''; ?>"><img src="./webroot/images/pr.svg" alt="pr" id="labelpr"></label>
+                            <label for="fr" class="<?php echo (isset($_COOKIE['idioma']) && $_COOKIE['idioma']=='FR') ? 'selected-idioma' : ''; ?>"><img src="./webroot/images/fr.svg" alt="fr" id="labelfr"></label>
                         </div>
                         <input type="submit" name="es" value="" id="es">
                         <input type="submit" name="pr" value='Portugues' id="pr">
@@ -144,6 +164,7 @@
                             echo "<h1>Bienvenido a la zona pública</h1>";
                         }
                         ?>
+                        <img src="./webroot/images/fondoPublico.png" alt="">
                         <!-- <div class="buttons">
                             <form>
                                 <input type="submit" name="login" value='Empezar' id="login" class="btn primary">

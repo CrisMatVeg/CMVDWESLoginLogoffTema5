@@ -10,6 +10,8 @@
     --btnsazul: #1fc2ff;
     --muted: #6b7280;
     --max-width: 100vw;
+    --btnshadow: #1AA8EB;
+    --btngrisshadow: #cecece;
 
     --headline: 'mFeather';
     --body: 'mNunito';
@@ -75,11 +77,12 @@ nav {
     background: var(--brand-green);
     font-family: var(--body);
     color: white;
-    padding: .55rem 1rem;
+    padding: .55rem 2rem;
     border-radius: 10px;
     font-weight: 700;
     text-decoration: none;
     border:none;
+    box-shadow: 0px 5px 0px 0px var(--btnshadow);
 }
 
 .hero {
@@ -124,12 +127,14 @@ input{
 .btn.primary {
     background: var(--btnsazul);
     color: white;
+    box-shadow: 0px 5px 0px 0px var(--btnshadow);
 }
 
 .btn.secondary {
     background: transparent;
     border: 2px solid rgba(0, 0, 0, 0.06);
     color: var(--btnsazul);
+    box-shadow: 0px 5px 0px 0px var(--btngrisshadow);
 }
 
 footer {

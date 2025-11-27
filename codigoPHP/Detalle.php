@@ -1,6 +1,11 @@
 <?php
-    if (isset($_REQUEST['salir'])) {
+    session_start();
+    if (isset($_REQUEST['cancelar'])) {
         header("Location: ./InicioPrivado.php");
+        exit;
+    }
+    if(!isset($_SESSION['usuarioCMVDWESLoginLogoffTema5']['CodUsuario']) && !isset($_SESSION['usuarioCMVDWESLoginLogoffTema5']['Password'])){
+        header("Location: ./Login.php");
         exit;
     }
 ?>
@@ -13,166 +18,197 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login</title>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="../webroot/css/estilos.css">
-        <link rel="stylesheet" href="../webroot/css/fonts.css">
+        <link rel="stylesheet" href="../webroot/css/estilosLoginLogoff.css">
         <style>
-            footer {
-                position: relative;
+            @font-face {
+                font-family: "mFeather";
+                src: url("../webroot/fonts/Nunito/static/Nunito-Black.ttf") format("truetype");
+                font-weight: 700;
+                font-style: normal;
             }
 
-            a i{
-                color: #020202;
+            @font-face {
+                font-family: "mNunito";
+                src: url("../webroot/fonts/Nunito/Nunito-VariableFont_wght.ttf") format("truetype");
+                font-weight: bold;
+                font-style: normal;
             }
 
-            footer i{
+            :root {
+                --brand-green: #58cc02;
+                --accent: #4a9bff;
+                --footera: #A5ED6E;
+                --footertext: #D7FFB8;
+                --bg: #F7FBFF;
+                --campocolor: #f7f7f7;
+                --campoborde: #e5e5e5;
+                --text: #1a1a1a;
+                --btnsazul: #1fc2ff;
+                --muted: #6b7280;
+                --max-width: 100vw;
+
+                --headline: 'mFeather';
+                --body: 'mNunito';
+            }
+
+            .logo .owl {
+                width: 60px;
+                height: 60px;
+                background-image: url("../webroot/images/paloma.svg");
+                background-size:cover;
+                background-repeat: no-repeat;
+                display: inline-block;
+            }
+
+            .hero {
+                display: flex;
+                justify-content:center;
+                align-items: center;
+                padding: 2rem 0;
+                text-align: center;
+            }
+
+            .hero .buttons {
+                display: flex;
+                gap: .75rem
+            }
+
+            input{
+                background-color: var(--campocolor);
+                border: 2px solid var(--campoborde);
+                padding:15px;
+                border-radius:12px;
+            }
+
+            .btn {
+                padding: .65rem 1rem;
+                border-radius: 12px;
+                font-weight: 700;
+                text-decoration: none;
+                font-family: var(--body);
+                display: inline-block;
+                border:none;
+                cursor: pointer;
+            }
+
+            .btn.primary {
+                background: var(--btnsazul);
                 color: white;
             }
 
-            main {
-                flex: 1;
-                margin-top: 100px;
-                margin-bottom: 20px;
-                display: block;
-                height: 100vh;
-                justify-items: center;
-                align-content: center;
-                align-items: start;
-                justify-content: center;
-                overflow: hidden;
-                box-sizing: border-box;
+            .btn.secondary {
+                background: transparent;
+                border: 2px solid rgba(0, 0, 0, 0.06);
+                color: var(--btnsazul);
             }
 
-            table{
-                margin-top: 5px;
-                position: relative;
-                overflow: hidden;
-                border-radius: 7px;
-                transition: transform 0.3s ease;
-                transform-origin: center;
-                background-size: cover;
-                background-position: center;
+            .hero {
                 display: flex;
-                justify-content: center;
+                justify-content:center;
                 align-items: center;
-                color: black;
-                font-weight: bold;
-                font-size: 1.2rem;
-                z-index: 0;
-                padding: 15px;
-                width: 100vw;
-                height: 100%;
-                background: white;
-            }
-
-            td{
-                border: 1px solid black;
-                height: 50px;
-                padding: 10px;
-            }
-
-            #tablaEjercicios tr td:nth-child(2){
-                font-family: sans-serif;
-            }
-
-            #tablaEjercicios tr td:nth-child(3){
-                cursor:pointer;
-            }
-
-            #tablaEjercicios tr td:nth-child(4){
-                cursor:pointer;
-            }
-
-            /* #login{
-                background: url("./webroot/images/user.svg") no-repeat center;
-                background-size: 45px;
-                width: 50px;
-                height: 50px;
-                border: none;
-                cursor: pointer;
-            } */
+                padding: 2rem 0;
+                text-align: start;
+            }     
+            .hero div h1{
+                text-align: center;
+            }           
         </style>
     </head>
 
     <body>
         <header>
-            <h1>Login Logoff Tema 5</h1>
-            <h2>vDetalle</h2>
+            <div class="logo">
+                <span class="owl" aria-hidden="true"></span>
+                <span>Login Logoff Tema 5<span style="color:var(--muted);font-weight:600;margin-left:6px;font-size:.9rem">—
+                    Detalle</span></span>
+            </div>
+            <form>
+                <input type="submit" name="cancelar" value='Cancelar' id="cancelar" class="btn primary">
+            </form>
         </header>
 
         <main>
-            <h3>Superglobales y phpinfo()</h3>
+        <section class="hero">
+        <div>
+            <h1>Superglobales y phpinfo()</h1>
             <?php
-            session_start();
-        /*  @author Cristian Mateos Vega
-         *  @since 17/11/2025
-         */
-        
-            echo '<h1>$_SESSION</h1>';
-            echo '<table><tr><th>Clave</th><th>Valor</th></tr>';
-            foreach ($_SESSION as $clave => $valor) {
-                echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
-            }
-            echo '</table>';
-
-            echo '<h1>$_COOKIE</h1>';
-            echo '<table><tr><th>Clave</th><th>Valor</th></tr>';
-            foreach ($_COOKIE as $clave => $valor) {
-                echo "<tr><th>$clave</th><td>" . $valor . "</td></tr>";
-            }
-            echo '</table>';
-
-            echo '<h1>$_SERVER</h1>';
-            echo '<table><tr><th>Clave</th><th>Valor</th></tr>';
-            foreach ($_SERVER as $clave => $valor) {
-                echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
-            }
-            echo '</table>';
-        
-            echo '<h1>$_REQUEST</h1>';
-            echo '<table><tr><th>Clave</th><th>Valor</th></tr>';
-            foreach ($_REQUEST as $clave => $valor) {
-                echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
-            }
-            echo '</table>';
+            /*  @author Cristian Mateos Vega
+            *  @since 17/11/2025
+            */
             
-            echo '<h1>$_GET</h1>';
-            echo '<table><tr><th>Clave</th><th>Valor</th></tr>';
-            foreach ($_GET as $clave => $valor) {
-                echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
-            }
-            echo '</table>';
+                echo '<h1>$_SESSION</h1>';
+                echo '<table><tr><th>Clave</th><th>Valor</th></tr>';
+                foreach ($_SESSION as $clave => $valor) {
+                    echo "<tr><th>$clave</th><td>";
+                    echo "<pre>";
+                    print_r($valor);
+                    echo "</pre>";
+                    echo "</td></tr>";
+                }
+                echo '</table>';
 
-            echo '<h1>$_POST</h1>';
-            echo '<table><tr><th>Variable $_POST</th><th>Valor</th></tr>';
-            foreach ($_POST as $clave => $valor) {
-                echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
-            }
-            echo '</table>';
+                echo '<h3>$_COOKIE</h3>';
+                echo '<table><tr><th>Clave</th><th>Valor</th></tr>';
+                foreach ($_COOKIE as $clave => $valor) {
+                    echo "<tr><th>$clave</th><td>" . $valor . "</td></tr>";
+                }
+                echo '</table>';
 
-            echo '<h1>$_FILES</h1>';
-            echo '<table><tr><th>Variable $_FILES</th><th>Valor</th></tr>';
-            foreach ($_FILES as $clave => $valor) {
-                echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
-            }
-            echo '</table>';
-
-            echo '<h1>$_ENV</h1>';
-            echo '<table><tr><th>Variable $_ENV</th><th>Valor</th></tr>';
-            foreach ($_ENV as $clave => $valor) {
-                echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
-            }
-            echo '</table>';
+                echo '<h3>$_SERVER</h3>';
+                echo '<table><tr><th>Clave</th><th>Valor</th></tr>';
+                foreach ($_SERVER as $clave => $valor) {
+                    echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
+                }
+                echo '</table>';
             
-            
-            echo phpinfo();
-        ?>
+                echo '<h3>$_REQUEST</h3>';
+                echo '<table><tr><th>Clave</th><th>Valor</th></tr>';
+                foreach ($_REQUEST as $clave => $valor) {
+                    echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
+                }
+                echo '</table>';
+                
+                echo '<h3>$_GET</h3>';
+                echo '<table><tr><th>Clave</th><th>Valor</th></tr>';
+                foreach ($_GET as $clave => $valor) {
+                    echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
+                }
+                echo '</table>';
+
+                echo '<h3>$_POST</h3>';
+                echo '<table><tr><th>Variable $_POST</th><th>Valor</th></tr>';
+                foreach ($_POST as $clave => $valor) {
+                    echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
+                }
+                echo '</table>';
+
+                echo '<h3>$_FILES</h3>';
+                echo '<table><tr><th>Variable $_FILES</th><th>Valor</th></tr>';
+                foreach ($_FILES as $clave => $valor) {
+                    echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
+                }
+                echo '</table>';
+
+                echo '<h3>$_ENV</h3>';
+                echo '<table><tr><th>Variable $_ENV</th><th>Valor</th></tr>';
+                foreach ($_ENV as $clave => $valor) {
+                    echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
+                }
+                echo '</table>';
+                
+                
+                echo phpinfo();
+            ?>
+        </div>
+        </section>
         </main>
 
         <footer>
-            <p>© 2025-26 IES Los Sauces. Todos los derechos reservados. <a href="../CMVDWESProyectoDWES/indexProyectoDWES.php" title="Inicio">Cristian Mateos Vega</a></p>
-            <div id="iconos">
-                <a href="https://github.com/CrisMatVeg/CMVDWESLoginLogoffTema5" target="_blank" title="Github"><i
-                        class="fa-brands fa-github fa-2xl"></i></a>
+            <div class="footer-grid">
+                <div>© 2025-26 IES Los Sauces. Todos los derechos reservados. <a href="../CMVDWESProyectoDWES/indexProyectoDWES.php" title="Inicio">Cristian Mateos Vega</a></div>
+                <div><a href="https://es.duolingo.com/" target="_blank" title="Duolingo">Pagina Imitada</a> · <a href="https://github.com/CrisMatVeg/CMVDWESLoginLogoffTema5" target="_blank" title="Github"><i
+                            class="fa-brands fa-github fa-2xl"></i></a>
+                </div>
             </div>
         </footer>
     </body>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../config/confDBPDO.php';
 require_once '../core/231018libreriaValidacion.php';
 
@@ -50,11 +51,15 @@ if (isset($_REQUEST['entrar'])) {
                 ':password' => $_REQUEST['usuario'].$_REQUEST['password']
             ]);
 
-            $usuario = $consulta->fetch(PDO::FETCH_OBJ);
+            $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
 
             if (!$usuario) {
                 $entradaOK = false;
             } else {
+                $FechaHoraUltimaConexionAnterior=new DateTime($usuario["T01_FechaHoraUltimaConexion"]);
+                $_SESSION['usuarioCMVDWESLoginLogoffTema5'] = [
+                    'FechaHoraUltimaConexionAnterior'  => $FechaHoraUltimaConexionAnterior
+                ];
                 // Actualizamos contador y fecha
                 $actualizar = $miDB->prepare("
                     UPDATE T01_Usuarios SET 
@@ -64,15 +69,31 @@ if (isset($_REQUEST['entrar'])) {
                 ");
                 $actualizar->execute([':usuario' => $_REQUEST['usuario']]);
 
-                // Guardamos sesión
-                $_SESSION['PHP_AUTH_USER'] = $_REQUEST['usuario'];
-                $_SESSION['PHP_AUTH_PW']= $_SESSION['PHP_AUTH_USER'].$_REQUEST['password'];
+                $consulta2 = $miDB->prepare("
+                    SELECT * FROM T01_Usuarios 
+                    WHERE T01_CodUsuario = :usuario 
+                    AND T01_Password = SHA2(:password, 256)
+                ");
 
+                $consulta2->execute([
+                    ':usuario'    => $_REQUEST['usuario'],
+                    ':password' => $_REQUEST['usuario'].$_REQUEST['password']
+                ]);
+
+                $usuarioPostUpdate = $consulta2->fetch(PDO::FETCH_ASSOC);
+                $FechaHoraUltimaConexion=new DateTime($usuario["T01_FechaHoraUltimaConexion"]);
+                // Guardamos sesión
+                $_SESSION['usuarioCMVDWESLoginLogoffTema5']['CodUsuario'] = $_REQUEST['usuario'];
+                $_SESSION['usuarioCMVDWESLoginLogoffTema5']['Password']= $_SESSION['usuarioCMVDWESLoginLogoffTema5']['CodUsuario'].$_REQUEST['password'];
+                $_SESSION['usuarioCMVDWESLoginLogoffTema5']['FechaHoraUltimaConexion'] = $FechaHoraUltimaConexion;
+                $_SESSION['usuarioCMVDWESLoginLogoffTema5']['NumConexiones'] = $usuario["T01_NumConexiones"];
+                $_SESSION['usuarioCMVDWESLoginLogoffTema5']['DescUsuario'] = $usuario["T01_DescUsuario"];
+                $_SESSION['usuarioCMVDWESLoginLogoffTema5']['Perfil'] = $usuario["T01_Perfil"];
+                $_SESSION['usuarioCMVDWESLoginLogoffTema5']['ImagenUsuario'] = $usuario["T01_ImagenUsuario"];
                 // Redirigir a zona privada
                 header("Location: ./InicioPrivado.php");
                 exit;
             }
-
         } catch (PDOException $e) {
             die("Error: " . $e->getMessage());
         }
@@ -110,23 +131,23 @@ if (isset($_REQUEST['entrar'])) {
                 --accent: #4a9bff;
                 --footera: #A5ED6E;
                 --footertext: #D7FFB8;
-                --bg: #F7FBFF;
+                --bg: #ffffff;
                 --campocolor: #f7f7f7;
-                --campoborde: #e5e5e5;
                 --text: #1a1a1a;
                 --btnsazul: #1fc2ff;
                 --muted: #6b7280;
                 --max-width: 100vw;
-
+                --btnshadow: #1AA8EB;
+                --btngrisshadow: #cecece;
                 --headline: 'mFeather';
                 --body: 'mNunito';
             }
 
             .logo .owl {
-                width: 45px;
-                height: 45px;
+                width: 60px;
+                height: 60px;
                 background-image: url("../webroot/images/paloma.svg");
-                background-size:45px;
+                background-size:cover;
                 background-repeat: no-repeat;
                 display: inline-block;
             }
@@ -145,10 +166,16 @@ if (isset($_REQUEST['entrar'])) {
             }
 
             input{
-                background-color: var(--campocolor);
-                border: 2px solid var(--campoborde);
+                background-color: lightyellow;
+                border: 2px solid var(--btngrisshadow);
                 padding:15px;
                 border-radius:12px;
+                font-family: var(--headline);
+            }
+            input:focus{
+                border:2px solid var(--btnsazul);
+                caret-color: var(--btnsazul);
+                outline:none;
             }
 
             .btn {
@@ -156,7 +183,8 @@ if (isset($_REQUEST['entrar'])) {
                 border-radius: 12px;
                 font-weight: 700;
                 text-decoration: none;
-                font-family: var(--body);
+                font-family: var(--headline);
+                font-weight:bold;
                 display: inline-block;
                 border:none;
                 cursor: pointer;
@@ -165,12 +193,32 @@ if (isset($_REQUEST['entrar'])) {
             .btn.primary {
                 background: var(--btnsazul);
                 color: white;
+                box-shadow: 0px 5px 0px 0px var(--btnshadow);
+                width:calc(50% - 5px);
             }
 
             .btn.secondary {
                 background: transparent;
-                border: 2px solid rgba(0, 0, 0, 0.06);
+                border: 2px solid var(--btngrisshadow);
                 color: var(--btnsazul);
+                box-shadow: 0px 5px 0px 0px var(--btngrisshadow);
+            }
+
+            form{
+                display:flex;
+                flex-direction:column;
+                flex-wrap:wrap;
+                gap:20px;
+            }
+            form *{
+                justify-content:center;
+            }
+            form div{
+                display: flex;
+                justify-content:space-between;
+            }
+            h2{
+                margin:30px;
             }
         </style>
     </head>
@@ -183,6 +231,9 @@ if (isset($_REQUEST['entrar'])) {
                     <span>Login Logoff Tema 5<span style="color:var(--muted);font-weight:600;margin-left:6px;font-size:.9rem">—
                         Login</span></span>
                 </div>
+                <form>
+                    <input type="submit" name="registrarse" value='Registrarse' id="registrarse" class="btn secondary">
+                </form>
             </header>
 
             <main>
@@ -191,27 +242,26 @@ if (isset($_REQUEST['entrar'])) {
                         <?php
                             if(isset($_COOKIE["idioma"])){
                                 if($_COOKIE["idioma"]=="FR"){
-                                    echo "<h1>SE CONNECTER</h1>";
+                                    echo "<h2>SE CONNECTER</h2>";
                                 }elseif ($_COOKIE["idioma"]=="PR") {
-                                    echo "<h1>CONECTE-SE</h1>";
+                                    echo "<h2>CONECTE-SE</h2>";
                                 }else{
-                                    echo "<h1>INICIAR SESIÓN</h1>";
+                                    echo "<h2>INICIAR SESIÓN</h2>";
                                 }
                             }else{
-                                echo "<h1>INICIAR SESIÓN</h1>";
+                                echo "<h2>INICIAR SESIÓN</h2>";
                             }
                         ?>
                         <div>
                             <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
-                                <input type="text" name="usuario" placeholder="Usuario" id="usuario" class="required" value="<?php echo (empty($aErrores['usuario'])) ? $aRespuestas['usuario'] : ''; ?>">
-                                <span style="color:red;"><?php echo $aErrores['usuario']; ?></span><br><br>
+                                <input type="text" name="usuario" placeholder="Usuario" id="usuario" class="required" value="">
 
-                                <input type="password" name="password" placeholder="Contraseña" id="password" value="<?php echo (empty($aErrores['password'])) ? $aRespuestas['password'] : ''; ?>">
-                                <span style="color:red;"><?php echo $aErrores['password']; ?></span><br><br>
+                                <input type="password" name="password" placeholder="Contraseña" id="password" value="">
 
-                                <input type="submit" name="entrar" value='Entrar' id="entrar" class="btn primary">
-                                <input type="submit" name="cancelar" value='Cancelar' id="cancelar" class="btn primary">
-                                <input type="submit" name="registrarse" value='Registrarse' id="registrarse" class="btn secondary">
+                                <div>
+                                    <input type="submit" name="entrar" value='Entrar' id="entrar" class="btn primary">
+                                    <input type="submit" name="cancelar" value='Cancelar' id="cancelar" class="btn primary">
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -219,10 +269,10 @@ if (isset($_REQUEST['entrar'])) {
             </main>
 
             <footer>
-                    <div class="footer-grid">
-                        <div>© 2025-26 IES Los Sauces. Todos los derechos reservados. <a href="../CMVDWESProyectoDWES/indexProyectoDWES.php" title="Inicio">Cristian Mateos Vega</a></div>
-                        <div><a href="https://es.duolingo.com/" target="_blank" title="Duolingo">Pagina Imitada</a> · <a href="https://github.com/CrisMatVeg/CMVDWESLoginLogoffTema5" target="_blank" title="Github"><i
-                                    class="fa-brands fa-github fa-2xl"></i></a>
+                <div class="footer-grid">
+                    <div>© 2025-26 IES Los Sauces. Todos los derechos reservados. <a href="../CMVDWESProyectoDWES/indexProyectoDWES.php" title="Inicio">Cristian Mateos Vega</a></div>
+                    <div><a href="https://es.duolingo.com/" target="_blank" title="Duolingo">Pagina Imitada</a> · <a href="https://github.com/CrisMatVeg/CMVDWESLoginLogoffTema5" target="_blank" title="Github"><i
+                                class="fa-brands fa-github fa-2xl"></i></a>
                     </div>
                 </div>
             </footer>

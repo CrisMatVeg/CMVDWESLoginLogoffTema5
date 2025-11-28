@@ -154,7 +154,7 @@
                         <?php
                         if(isset($_COOKIE["idioma"])){
                             if($_COOKIE["idioma"]=="FR"){
-                                echo "<h1>Bienvenue dans l'espace public</h1>";
+                                
                             }elseif ($_COOKIE["idioma"]=="PR") {
                                 echo "<h1>Bem-vindo à área pública.</h1>";
                             }else{

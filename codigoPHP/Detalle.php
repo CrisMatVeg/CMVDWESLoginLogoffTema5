@@ -161,6 +161,13 @@
                 }
                 echo '</table>';
             
+                echo '<h3>$_ENV</h3>';
+                echo '<table><tr><th>Variable $_ENV</th><th>Valor</th></tr>';
+                foreach ($_ENV as $clave => $valor) {
+                    echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
+                }
+                echo '</table>';
+                
                 echo '<h3>$_REQUEST</h3>';
                 echo '<table><tr><th>Clave</th><th>Valor</th></tr>';
                 foreach ($_REQUEST as $clave => $valor) {
@@ -185,13 +192,6 @@
                 echo '<h3>$_FILES</h3>';
                 echo '<table><tr><th>Variable $_FILES</th><th>Valor</th></tr>';
                 foreach ($_FILES as $clave => $valor) {
-                    echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
-                }
-                echo '</table>';
-
-                echo '<h3>$_ENV</h3>';
-                echo '<table><tr><th>Variable $_ENV</th><th>Valor</th></tr>';
-                foreach ($_ENV as $clave => $valor) {
                     echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
                 }
                 echo '</table>';

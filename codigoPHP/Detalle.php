@@ -1,11 +1,23 @@
 <?php
+    /*  
+        @author Cristian Mateos Vega
+        @since 05/12/2025
+    */
+
+    // Inicia la sesión o continúa la sesión actual
     session_start();
-    if (isset($_REQUEST['cancelar'])) {
-        header("Location: ./InicioPrivado.php");
+
+    // Comprueba si existe la variable de sesión específica del usuario
+    // Si no está definida, redirige al usuario a la página de Login
+    if(!isset($_SESSION['usuarioCMVDWESLoginLogoffTema5'])){
+        header("Location: ./Login.php");
         exit;
     }
-    if(!isset($_SESSION['usuarioCMVDWESLoginLogoffTema5']['CodUsuario']) && !isset($_SESSION['usuarioCMVDWESLoginLogoffTema5']['Password'])){
-        header("Location: ./Login.php");
+
+    // Comprueba si se ha pulsado el botón "Cancelar" del formulario
+    // Si se ha pulsado, redirige al usuario a la página de inicio privado
+    if (isset($_REQUEST['cancelar'])) {
+        header("Location: ./InicioPrivado.php");
         exit;
     }
 ?>
@@ -132,21 +144,19 @@
         <div>
             <h1>Superglobales y phpinfo()</h1>
             <?php
-            /*  @author Cristian Mateos Vega
-            *  @since 17/11/2025
-            */
-            
+                // Mostrar información de $_SESSION
                 echo '<h1>$_SESSION</h1>';
                 echo '<table><tr><th>Clave</th><th>Valor</th></tr>';
                 foreach ($_SESSION as $clave => $valor) {
                     echo "<tr><th>$clave</th><td>";
-                    echo "<pre>";
-                    print_r($valor);
+                    echo "<pre>"; 
+                    print_r($valor); // Imprime de forma legible el contenido de la variable
                     echo "</pre>";
                     echo "</td></tr>";
                 }
                 echo '</table>';
 
+                // Mostrar información de $_COOKIE
                 echo '<h3>$_COOKIE</h3>';
                 echo '<table><tr><th>Clave</th><th>Valor</th></tr>';
                 foreach ($_COOKIE as $clave => $valor) {
@@ -154,27 +164,31 @@
                 }
                 echo '</table>';
 
+                // Mostrar información de $_SERVER
                 echo '<h3>$_SERVER</h3>';
                 echo '<table><tr><th>Clave</th><th>Valor</th></tr>';
                 foreach ($_SERVER as $clave => $valor) {
                     echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
                 }
                 echo '</table>';
-            
+
+                // Mostrar información de $_ENV
                 echo '<h3>$_ENV</h3>';
                 echo '<table><tr><th>Variable $_ENV</th><th>Valor</th></tr>';
                 foreach ($_ENV as $clave => $valor) {
                     echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
                 }
                 echo '</table>';
-                
+
+                // Mostrar información de $_REQUEST
                 echo '<h3>$_REQUEST</h3>';
                 echo '<table><tr><th>Clave</th><th>Valor</th></tr>';
                 foreach ($_REQUEST as $clave => $valor) {
                     echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
                 }
                 echo '</table>';
-                
+
+                // Mostrar información de $_GET
                 echo '<h3>$_GET</h3>';
                 echo '<table><tr><th>Clave</th><th>Valor</th></tr>';
                 foreach ($_GET as $clave => $valor) {
@@ -182,6 +196,7 @@
                 }
                 echo '</table>';
 
+                // Mostrar información de $_POST
                 echo '<h3>$_POST</h3>';
                 echo '<table><tr><th>Variable $_POST</th><th>Valor</th></tr>';
                 foreach ($_POST as $clave => $valor) {
@@ -189,14 +204,15 @@
                 }
                 echo '</table>';
 
+                // Mostrar información de $_FILES (archivos subidos)
                 echo '<h3>$_FILES</h3>';
                 echo '<table><tr><th>Variable $_FILES</th><th>Valor</th></tr>';
                 foreach ($_FILES as $clave => $valor) {
                     echo "<tr><th>$$clave</th><td>" . $valor . "</td></tr>";
                 }
                 echo '</table>';
-                
-                
+
+                // Mostrar información completa de PHP, configuración del servidor, módulos, etc.
                 echo phpinfo();
             ?>
         </div>
@@ -205,7 +221,7 @@
 
         <footer>
             <div class="footer-grid">
-                <div>© 2025-26 IES Los Sauces. Todos los derechos reservados. <a href="../CMVDWESProyectoDWES/indexProyectoDWES.php" title="Inicio">Cristian Mateos Vega</a></div>
+                <div>© 2025-26 IES Los Sauces. Todos los derechos reservados. <a href="../../CMVDWESProyectoDWES/indexProyectoDWES.php" title="Inicio">Cristian Mateos Vega</a></div>
                 <div><a href="https://es.duolingo.com/" target="_blank" title="Duolingo">Pagina Imitada</a> · <a href="https://github.com/CrisMatVeg/CMVDWESLoginLogoffTema5" target="_blank" title="Github"><i
                             class="fa-brands fa-github fa-2xl"></i></a>
                 </div>

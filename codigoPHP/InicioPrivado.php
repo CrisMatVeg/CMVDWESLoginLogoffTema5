@@ -1,21 +1,28 @@
 <?php
+    /*  @author Cristian Mateos Vega
+    *  @since 05/12/2025
+    */
+
+    //Inicia la sesión o reanuda la que ya haya
     session_start();
     require_once '../config/confDBPDO.php';
+
+    //Si el usuario no se ha autenticado entonces nos lleva antes al Login
+    if(!isset($_SESSION['usuarioCMVDWESLoginLogoffTema5'])){
+        header("Location: ./Login.php");
+        exit;
+    }
+
+    //Si accedemos a esta pagina y pulsamos detalle nos lleva a detalle
     if (isset($_REQUEST['detalle'])) {
         header("Location: ./Detalle.php");
         exit;
     }
+    
+    //Si cancelamos volvemos al inicio público
     if (isset($_REQUEST['cancelar'])) {
         session_unset();
         header("Location: ../indexLoginLogoff.php");
-        exit;
-    }
-    if (isset($_REQUEST['volver'])) {
-        header("Location: ../indexLoginLogoff.php");
-        exit;
-    }
-    if(!isset($_SESSION['usuarioCMVDWESLoginLogoffTema5']['CodUsuario']) && !isset($_SESSION['usuarioCMVDWESLoginLogoffTema5']['Password'])){
-        header("Location: ./Login.php");
         exit;
     }
 ?>
@@ -139,24 +146,36 @@
                 <form>
                     <input type="submit" name="cancelar" value='Cerrar Sesión' id="cancelar" class="btn primary">
                 </form>
-                <form>
-                    <input type="submit" name="volver" value='Volver a Inicio Público' id="volver" class="btn primary">
-                </form>
             </nav>
         </header>
 
         <main>
             <?php
+                // Crea una nueva conexión PDO a la base de datos usando las constantes del archivo de configuración
                 $miDB = new PDO(DSN, USERNAME, PASSWORD);
-                $nombreUsuario=$_SESSION['usuarioCMVDWESLoginLogoffTema5']['CodUsuario'];
-                $password=$_SESSION['usuarioCMVDWESLoginLogoffTema5']['Password'];
+
+                // Obtiene el nombre de usuario y la contraseña guardados en la sesión
+                $nombreUsuario = $_SESSION['usuarioCMVDWESLoginLogoffTema5']['CodUsuario'];
+                $password = $_SESSION['usuarioCMVDWESLoginLogoffTema5']['Password'];
+
+                // Prepara una consulta para obtener los datos del usuario actual
+                // Se comprueba que el usuario y la contraseña coinciden (cifrada con SHA2-256)
                 $consulta = $miDB->prepare("
-                SELECT * FROM T01_Usuarios WHERE T01_CodUsuario = :nombreUsuario AND T01_Password = SHA2(:password,256)
+                    SELECT * FROM T01_Usuarios 
+                    WHERE T01_CodUsuario = :nombreUsuario 
+                    AND T01_Password = SHA2(:password,256)
                 ");
+
+                // Ejecuta la consulta con los parámetros sustituidos
                 $consulta->execute([':nombreUsuario' => $nombreUsuario, ':password' => $password]);
-                $usuarioActual =  $consulta->fetch(PDO::FETCH_ASSOC);
-                $fechaUltimaConexion=$_SESSION['usuarioCMVDWESLoginLogoffTema5']['FechaHoraUltimaConexion'];
+
+                // Obtiene los datos del usuario en forma de array asociativo
+                $usuarioActual = $consulta->fetch(PDO::FETCH_ASSOC);
+
+                // Obtiene la fecha de la última conexión desde la sesión
+                $fechaUltimaConexion = $_SESSION['usuarioCMVDWESLoginLogoffTema5']['FechaHoraUltimaConexion'];
                 
+                // Comprobación del idioma almacenado en la cookie "idioma"
                 if($_COOKIE["idioma"]=="FR"){
                     echo "<h1>Bienvenue " . $usuarioActual['T01_DescUsuario']. "</h1>";
                     echo "<h2>C’est la " . $usuarioActual['T01_NumConexiones'] . " fois que vous vous connectez.</h2>";
